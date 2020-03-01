@@ -21,6 +21,10 @@ const FactSchema = Schema(
             type: String,
             required: true
         },
+        slug:{
+            type: String,
+            required: true
+        }
     },
     { timestamps: true }
 );
