@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -13,6 +14,8 @@ const Fact = require('./models/Fact');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+// Seting up the static directory
+app.use(express.static(path.join(__dirname, '../public')));
 
 // eslint-disable-next-line no-unused-vars
 app.get('/api/note/list', (req, res) => {
@@ -91,6 +94,9 @@ app.delete('/api/fact/delete/:id', (req, res) => {
         return res.send({ message: 'note deleted' });
     });
 });
+
+const userRoutes = require('./user/route/user'); //bring in our user routes
+app.use('/user', userRoutes);
 
 //connect server to mongoDB
 mongoose.connect(
