@@ -31,14 +31,39 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
+    meta: { requiresAuth: true },
     component: () => import(/* webpackChunkName: "dashboard" */ '../views/admin/DashBoard.vue')
-  }
+  },
+  {
+    path: '/login',
+    name: 'login-page',
+    component: () => import(/* webpackChunkName: "login" */ '../views/auth/Login.vue')
+  },
+  {
+    path: '/register',
+    name: 'register-page',
+    component: () => import(/* webpackChunkName: "register" */ '../views/auth/Register.vue')
+  },
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (localStorage.getItem("jwt") == null) {
+      next({
+        path: "/login"
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 })
 
 export default router
