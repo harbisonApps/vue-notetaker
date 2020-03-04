@@ -27,9 +27,9 @@ app.get('/api/note/list', (req, res) => {
 });
 
 app.post('/api/note/create', (req, res) => {
-    const note = new Note({ 
-        body: req.body.body, 
-        title: req.body.title 
+    const note = new Note({
+        body: req.body.body,
+        title: req.body.title
     });
     note.save((err) => {
         if (err) return res.status(404).send({ message: err.message });
@@ -41,7 +41,7 @@ app.post('/api/note/create', (req, res) => {
 app.post('/api/note/update/:id', (req, res) => {
     Note.findByIdAndUpdate(req.params.id, req.body.data, { new: true }, (err, note) => {
         if (err) return res.status(404).send({ message: err.message });
-        
+
         return res.status(200).send({ message: 'note updated!', note });
     });
 });
