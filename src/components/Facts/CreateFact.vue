@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-import { createFact } from '@/services/FactService'
+import { factCreate } from '@/services/FactService'
 import VueSuglify from 'vue-suglify'
 export default {
     name: 'create-fact',
@@ -58,12 +58,13 @@ export default {
               fullText: this.fullText,
               imageUrl: this.imageUrl,
               slug: this.slug,}
-        createFact(data)
+        factCreate(data)
             .then(data => {
-                this.$emit('createFact', data.fact)
+                this.$emit('factCreate', data.fact)
+                this.name = this.category = this.description = this.fullText = this.imageUrl = this.slug = ''
                 this.toggle();
             })
-            .catch(err => alert(err.message));
+            .catch(err => alert(err));
       },
 
       toggle(){

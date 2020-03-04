@@ -5,11 +5,10 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 require('dotenv/config');
-//const bcrypt = require('bcrypt');
 
 //models
 const Note = require('./models/Note');
-const Fact = require('./models/Fact');
+//const Fact = require('./models/Fact');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -55,48 +54,50 @@ app.delete('/api/note/delete/:id', (req, res) => {
 });
 
 // eslint-disable-next-line no-unused-vars
-app.get('/api/fact/list', (req, res) => {
-    Fact.find({}).exec((err, facts) => {
-        if (err)
-            return res.status(404).send('Error while getting notes!');
+// app.get('/api/fact/list', (req, res) => {
+//     Fact.find({}).exec((err, facts) => {
+//         if (err)
+//             return res.status(404).send('Error while getting notes!');
 
-        return res.send({ facts });
-    });
-});
+//         return res.send({ facts });
+//     });
+// });
 
-app.post('/api/fact/create', (req, res) => {
-    const fact = new Fact({
-        name: req.body.name,
-        category: req.body.category,
-        description: req.body.description,
-        fullText: req.body.fullText,
-        imageUrl: req.body.imageUrl,
-        slug: req.body.slug
-    });
-    fact.save((err) => {
-        if (err) return res.status(404).send({ message: err.message });
+// app.post('/api/fact/create', (req, res) => {
+//     const fact = new Fact({
+//         name: req.body.name,
+//         category: req.body.category,
+//         description: req.body.description,
+//         fullText: req.body.fullText,
+//         imageUrl: req.body.imageUrl,
+//         slug: req.body.slug
+//     });
+//     fact.save((err) => {
+//         if (err) return res.status(404).send({ message: err.message });
 
-        return res.status(200).send({ message: 'note created', fact });
-    });
-});
+//         return res.status(200).send({ message: 'note created', fact });
+//     });
+// });
 
-app.post('/api/fact/update/:id', (req, res) => {
-    Fact.findByIdAndUpdate(req.params.id, req.body.data, { new: true }, (err, fact) => {
-        if (err) return res.status(404).send({ message: err.message });
+// app.post('/api/fact/update/:id', (req, res) => {
+//     Fact.findByIdAndUpdate(req.params.id, req.body.data, { new: true }, (err, fact) => {
+//         if (err) return res.status(404).send({ message: err.message });
 
-        return res.status(200).send({ message: 'fact updated!', fact });
-    });
-});
+//         return res.status(200).send({ message: 'fact updated!', fact });
+//     });
+// });
 
-app.delete('/api/fact/delete/:id', (req, res) => {
-    Fact.findByIdAndRemove(req.params.id, (err) => {
-        if (err) return res.status(404).send({ message: err.message });
-        return res.send({ message: 'note deleted' });
-    });
-});
+// app.delete('/api/fact/delete/:id', (req, res) => {
+//     Fact.findByIdAndRemove(req.params.id, (err) => {
+//         if (err) return res.status(404).send({ message: err.message });
+//         return res.send({ message: 'note deleted' });
+//     });
+// });
 
-const userRoutes = require('./user/route/user'); //bring in our user routes
+const userRoutes = require('./routes/useRoute'); //bring in our user routes
+const factRoutes = require('./routes/factRoute')
 app.use('/user', userRoutes);
+app.use('/fact', factRoutes)
 
 //connect server to mongoDB
 mongoose.connect(

@@ -19,7 +19,7 @@ export default {
         deleteFact(e){
             e.preventDefault();
             deleteFact(this.fact._id)
-            .then(() => this.$emit('deletefact', this.fact._id))
+            .then(() => this.$emit('deleteFact', this.fact._id))
             .catch(err => alert(err))
             console.log('fact deleted')
         },

@@ -20,10 +20,12 @@ export function createNote(data) {
         .catch(err => Promise.reject(err.message));
 }
 
-export function updateNote(data, id) {
-    return axios.post(`${BASE_URL}/api/note/update/${id}`, { data })
-        .then(response => {
-            return response.data
-        })
-        .catch(err => Promise.reject(err.message));
+export async function updateNote(data, id) {
+    try {
+        const response = await axios.post(`${BASE_URL}/api/note/update/${id}`, { data });
+        return response.data;
+    }
+    catch (err) {
+        return await Promise.reject(err.message);
+    }
 }

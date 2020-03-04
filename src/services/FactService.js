@@ -3,12 +3,12 @@ import axios from 'axios'
 const BASE_URL = 'http://localhost:5000';
 
 export function getFacts() {
-    return axios.get(`${BASE_URL}/api/fact/list`)
+    return axios.get(`${BASE_URL}/fact/list`)
         .then(response => response.data);
 }
 
-export function createFact(data) {
-    return axios.post(`${BASE_URL}/api/fact/create`, {
+export function factCreate(data) {
+    return axios.post(`${BASE_URL}/fact/create`, {
         name: data.name,
         category: data.category,
         description: data.description,
@@ -21,7 +21,7 @@ export function createFact(data) {
 }
 
 export function updateFact(data, id) {
-    return axios.post(`${BASE_URL}/api/fact/update/${id}`, { data })
+    return axios.post(`${BASE_URL}/fact/update/${id}`, { data })
         .then(response => {
             return response.data
         })
@@ -29,7 +29,13 @@ export function updateFact(data, id) {
 }
 
 export function deleteFact(id){
-    return axios.delete(`${BASE_URL}/api/fact/delete/${id}`)
+    return axios.post(`${BASE_URL}/fact/delete/${id}`)
         .then(response => response.data)
         .catch(err => Promise.reject(err.message));
 }
+
+// export function deleteNote(id) {
+//     return axios.post(`${BASE_URL}/api/note/delete/${id}`)
+//         .then(response => response.data)
+//         .catch(err => Promise.reject(err.message));
+// }

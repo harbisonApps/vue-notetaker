@@ -3,7 +3,7 @@
     <h1>Admin Dashboard</h1>
     <div class="container">
         <div>
-            <CreateFact @createFact="createFact"/>
+            <CreateFact @factCreate="factCreate"/>
             <br>
             <div>
                 <AdminFact v-for="(fact, index) in facts" 
@@ -18,12 +18,16 @@
 
 <script>
 // @ is an alias to /src
-import AdminFact from '@/components/Facts/AdminFact'
-import CreateFact from '@/components/Facts/CreateFact'
+//import AdminFact from '@/components/Facts/AdminFact'
+//import CreateFact from '@/components/Facts/CreateFact'
 import { getFacts } from '@/services/FactService'
+
 export default {
   name: 'dashboard',
-  components: { AdminFact, CreateFact },
+  components: { 
+    AdminFact: require('@/components/Facts/AdminFact').default, 
+    CreateFact: require('@/components/Facts/CreateFact').default
+  },
   data() {
     return {
       facts: []
@@ -36,9 +40,9 @@ export default {
     },
     updateFact(fact){
       this.deleteFact(fact._id);
-      this.createFact(fact);
+      this.factCreate(fact);
     },
-    createFact(fact){
+    factCreate(fact){
         this.facts = [fact, ...this.facts];
     },
   },

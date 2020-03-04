@@ -54,7 +54,6 @@ export default {
       updateFact(data, this.fact._id)
         .then(data => {
           this.$emit('updateFact', data.fact);
-          console.log('update Fact: ', data.fact)
           this.toggle();
         })
         .catch(err => alert(err.message));

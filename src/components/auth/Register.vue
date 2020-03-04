@@ -75,3 +75,10 @@ export default {
   }
 };
 </script>
+<style scoped>
+form {
+    border: black 1px solid;
+    padding: 10px;
+    margin: auto;
+}
+</style>
