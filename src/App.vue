@@ -7,7 +7,8 @@
       <router-link to="/facts">Facts</router-link> |
       <router-link to="/dashboard">Admin</router-link> |
       <router-link to="/login">Login</router-link> |
-      <router-link to="/register">Register</router-link>
+      <router-link to="/register">Register</router-link> |
+      <button @click="logOut" type="submit">Log Out</button>
     </div>
     <transition
       name="fade"
@@ -21,6 +22,7 @@
   </div>
 </template>
 <script>
+import swal from "sweetalert";
 export default {
   name: "App",
   data() {
@@ -29,6 +31,23 @@ export default {
     };
   },
   methods: {
+    async logOut() {
+      try {
+          //await this.$http.get('/user/logout')
+        
+          //let token = response.data.token;
+         
+        localStorage.removeItem("jwt")
+         //if (!token) {
+          swal("Success", "You are Logged Out", "success");
+        this.$router.push("/login");
+       //}
+      } catch (err) {
+        swal("Error", "Something went wrong, please try again", "error");
+        console.log(err.response);
+      }
+    },
+
     beforeLeave(element) {
       this.prevHeight = getComputedStyle(element).height;
     },

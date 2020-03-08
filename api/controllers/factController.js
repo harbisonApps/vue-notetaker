@@ -19,9 +19,9 @@ exports.factCreate = (req, res) => {
         slug: req.body.slug
     });
     fact.save((err) => {
-        if (err) return res.status(404).send({ message: err.message });
-
-        return res.status(200).send({ message: 'note created', fact });
+        if (err) return res.status(400).send({ message: 'All fields are required' });
+        
+        return res.status(201).send({ message: 'fact created', fact });
     });
 }
 

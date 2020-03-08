@@ -11,6 +11,7 @@
 <script>
 import EditFact from '@/components/Facts/EditFact'
 import { deleteFact} from '@/services/FactService'
+import swal from "sweetalert";
 export default {
     name: 'admin-fact',
     props: [ 'fact' ],
@@ -19,9 +20,24 @@ export default {
         deleteFact(e){
             e.preventDefault();
             deleteFact(this.fact._id)
-            .then(() => this.$emit('deleteFact', this.fact._id))
-            .catch(err => alert(err))
-            console.log('fact deleted')
+            // .then(() => )
+            .catch(err => swal(err, "", "error") )
+            swal({
+            title: "Are you sure?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+                swal(`Poof ${this.fact.name} is gone`, "", {
+                icon: "success",
+                });
+                this.$emit('deleteFact', this.fact._id)
+            } else {
+                swal(`${this.fact.name} is still there`, "","info");
+            }
+            });
         },
         updateFact(fact){
             this.$emit('updateFact', fact)

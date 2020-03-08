@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 
 const userSchema = new mongoose.Schema({
 
@@ -29,14 +28,6 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'customer', 'admin'],
         default: 'user'
     },
-    tokens: [
-        {
-            token: {
-                type: String,
-                required: true
-            }
-        }
-    ],
     active: {
         type: Boolean,
         default: true,
@@ -72,28 +63,18 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
-//this method generates an auth token for the user
-userSchema.methods.generateAuthToken = async function () {
-    const user = this;
-    const token = jwt.sign({ _id: user._id, name: user.name, email: user.email },
-        "secret");
-    user.tokens = user.tokens.concat({ token });
-    await user.save();
-    return token;
-};
-
-//this method search for a user by email and password.
-// userSchema.statics.findByCredentials = async (email, password) => {
-//     const user = await User.findOne({ email });
-//     if (!user) {
-//         throw new Error({ error: "Email does not match any of our records " });
-//     }
-//     const isPasswordMatch = await bcrypt.compare(password, user.password);
-//     if (!isPasswordMatch) {
-//         throw new Error({ error: "Password is incorrect" });
-//     }
-//     return user;
-// };
+userSchema.statics.findByCredentials = async (email, password) => {
+    // Search for a user by email and password.
+    const user = await User.findOne({ email })
+    if (!user) {
+        throw new Error({ error: 'Email does not match any of our records' })
+    }
+    const isPasswordMatch = await bcrypt.compare(password, user.password)
+    if (!isPasswordMatch) {
+        throw new Error({ error: 'Password is incorrect' })
+    }
+    return user
+}
 
 userSchema.methods.correctPassword = async function (
     candidatePassword,

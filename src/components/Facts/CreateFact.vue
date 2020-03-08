@@ -10,15 +10,15 @@
           </h5>
         </header>
         <section class="modal-card-body">
-          <input v-model="name" class="input" type="text" placeholder="name">
+          <input v-model="name" required class="input" type="text" placeholder="name">
           <br>
-          <input v-model="category" class="input" type="text" placeholder="category">
+          <input v-model="category" required class="input" type="text" placeholder="category">
           <br>
-          <input v-model="description" class="input" type="text" placeholder="description">
+          <input v-model="description" required class="input" type="text" placeholder="description">
           <br>
-          <textarea v-model="fullText" class="textarea"  placeholder="enter content"></textarea>
+          <textarea v-model="fullText" required class="textarea"  placeholder="enter content"></textarea>
           <br>
-          <input v-model="imageUrl" class="input" type="text" placeholder="imageUrl">
+          <input v-model="imageUrl" required class="input" type="text" placeholder="imageUrl">
           <br>
           <VueSuglify :slugify="name" :slug.sync="slug">
 				<input disabled class="col" slot-scope="{inputBidding}" v-bind="inputBidding"
@@ -34,6 +34,7 @@
 </template>
 <script>
 import { factCreate } from '@/services/FactService'
+import swal from "sweetalert";
 import VueSuglify from 'vue-suglify'
 export default {
     name: 'create-fact',
@@ -46,7 +47,7 @@ export default {
       fullText: '',
       imageUrl: '',
       slug: '',
-      isActive: false
+      isActive: false,
     }
   },
   methods: {
@@ -63,8 +64,12 @@ export default {
                 this.$emit('factCreate', data.fact)
                 this.name = this.category = this.description = this.fullText = this.imageUrl = this.slug = ''
                 this.toggle();
+                swal("Fact Created", "", "success");
             })
-            .catch(err => alert(err));
+            .catch(err => {
+              swal("All fields are required", "", "warning")
+              console.log(err)
+            });
       },
 
       toggle(){
