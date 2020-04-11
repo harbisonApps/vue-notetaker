@@ -13,7 +13,7 @@ const Note = require('./models/Note');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-// Seting up the static directory
+// Setting up the static directory
 app.use(express.static(path.join(__dirname, '../public')));
 
 // eslint-disable-next-line no-unused-vars
@@ -60,4 +60,4 @@ app.use('/user', userRoutes);
 app.use('/fact', factRoutes)
 
 app.listen(port);
-console.log('api runnging on port :' + port);
+console.log('api running on port :' + port);
