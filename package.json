@@ -20,7 +20,7 @@
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.7",
     "sweetalert": "^2.1.2",
-    "validator": "^12.2.0",
+    "validator": "^13.7.0",
     "vue": "^2.6.11",
     "vue-jwt-decode": "^0.1.0",
     "vue-router": "^3.1.6",
